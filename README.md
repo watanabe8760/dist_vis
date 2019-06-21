@@ -6,6 +6,7 @@ https://teru.shinyapps.io/dist_vis/
 
 #### Continuous
 - Normal
+- Uniform
 - Beta
 - Gamma
 - Exponential
@@ -18,7 +19,7 @@ https://teru.shinyapps.io/dist_vis/
 ### To be improved
 
 Additional Distribution
-- [ ] Add continuous uniform distribution
+- [X] Add continuous uniform distribution
 - [ ] Add discrete uniform distribution
 - [ ] Add chi-squared distribution
 

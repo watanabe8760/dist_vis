@@ -17,6 +17,7 @@ ui <- fluidPage(
     widths = c(2, 10),
     
     'Continuous',
+    
     # Normal Distribution
     tabPanel(
       "Normal",
@@ -38,6 +39,27 @@ ui <- fluidPage(
         mainPanel(
           width = WIDTH_MAIN,
           plotOutput("normal")
+        )
+      )
+    ),
+    
+    # Uniform Distribution (Continuous)
+    tabPanel(
+      "Uniform",
+      sidebarLayout(
+        sidebarPanel(
+          width = WIDTH_SIDE,
+          sliderInput('ab',
+                      'Range (\\(a, b\\))',
+                      min = -3,
+                      max = 3,
+                      step = 0.1,
+                      ticks = F,
+                      value = c(0, 1))
+        ),
+        mainPanel(
+          width = WIDTH_MAIN,
+          plotOutput("uniform_cont")
         )
       )
     ),
@@ -216,6 +238,29 @@ server <- function(input, output) {
       geom_vline(xintercept = pos_1_sig, color = BLUES9[6]) +
       geom_vline(xintercept = pos_2_sig, color = BLUES9[4]) +
       geom_vline(xintercept = pos_3_sig, color = BLUES9[3]) +
+      xlab('X') +
+      ylab('Density') +
+      theme_hc()
+  })
+  
+  # Uniform Distribution (Continuous)
+  output$uniform_cont <- renderPlot({
+    if (input$ab[1] == input$ab[2]) return(NULL)
+    a <- input$ab[1]
+    b <- input$ab[2]
+    d <- 1 / (b - a)
+    
+    data.frame(x_stt = c(-3, a, b),
+               x_end = c( a, b, 3),
+               y_stt = c( 0, d, 0),
+               y_end = c( 0, d, 0)) %>%
+      ggplot() +
+      geom_segment(aes(x = x_stt, y = y_stt, xend = x_end, yend = y_end),
+                   color = BLUES9[9], size = 1, alpha = 0.8) +
+      geom_point(x = a, y = 0, size = 3, color = BLUES9[9], shape = 1) +
+      geom_point(x = a, y = d, size = 3, color = BLUES9[9]) +
+      geom_point(x = b, y = d, size = 3, color = BLUES9[9]) +
+      geom_point(x = b, y = 0, size = 3, color = BLUES9[9], shape = 1) +
       xlab('X') +
       ylab('Density') +
       theme_hc()
