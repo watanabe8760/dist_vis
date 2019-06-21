@@ -114,8 +114,23 @@ ui <- fluidPage(
       )
     ),
     
+    # Poisson Distribution
     tabPanel(
-      "Poisson"
+      "Poisson",
+      sidebarLayout(
+        sidebarPanel(
+          width = WIDTH_SIDE,
+          numericInput('lambda',
+                       'Rate (\\(\\lambda\\))',
+                       min = 1,
+                       step = 1,
+                       value = 100)
+        ),
+        mainPanel(
+          width = WIDTH_MAIN,
+          plotOutput("poisson")
+        )
+      )
     ),
     tabPanel(
       "Exponential"
@@ -215,6 +230,22 @@ server <- function(input, output) {
       geom_vline(xintercept = mu, color = BLUES9[8]) +
       xlab('X') +
       ylab('Density') +
+      theme_hc()
+  })
+  
+  # Poisson Distribution
+  output$poisson <- renderPlot({
+    if (is.na(input$lambda)) return(NULL)
+    x_max <- qpois(0.999, input$lambda)　%>% ceiling()
+    x <- seq(from = 0, to = x_max)
+    y <- dpois(x, input$lambda)
+    
+    data.frame(x, y) %>%
+      ggplot() +
+      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
+      geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
+      xlab('Number of Occurrence') +
+      ylab('Probability') +
       theme_hc()
   })
 }
