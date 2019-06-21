@@ -66,9 +66,30 @@ ui <- fluidPage(
       )
     ),
     
+    # Beta Distribution
     tabPanel(
-      "Beta"
+      "Beta",
+      sidebarLayout(
+        sidebarPanel(
+          width = WIDTH_SIDE,
+          numericInput('alpha',
+                       'Shape (\\(\\alpha\\))',
+                       min = 0.1,
+                       step = 0.1,
+                       value = 2),
+          numericInput('beta',
+                       'Shape (\\(\\beta\\))',
+                       min = 0.1,
+                       step = 0.1,
+                       value = 2)
+        ),
+        mainPanel(
+          width = WIDTH_MAIN,
+          plotOutput("beta")
+        )
+      )
     ),
+    
     tabPanel(
       "Gamma"
     ),
@@ -144,6 +165,22 @@ server <- function(input, output) {
       geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
       xlab('Number of Successes') +
       ylab('Probability') +
+      theme_hc()
+  })
+  
+  # Beta Distribution
+  output$beta <- renderPlot({
+    if (is.na(input$alpha) | is.na(input$beta)) return(NULL)
+    x <- seq(from = 0, to = 1, length.out = 1000)
+    y <- dbeta(x, input$alpha, input$beta)
+    mu <- input$alpha / (input$alpha + input$beta)
+    
+    data.frame(x, y) %>%
+      ggplot() +
+      geom_path(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
+      geom_vline(xintercept = mu, color = BLUES9[8]) +
+      xlab('X') +
+      ylab('Density') +
       theme_hc()
   })
 }

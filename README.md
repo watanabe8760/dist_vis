@@ -6,7 +6,7 @@ https://teru.shinyapps.io/dist_vis/
 
 - [X] Normal
 - [X] Binomial
-- [ ] Beta
+- [X] Beta
 - [ ] Gamma
 - [ ] Poisson
 - [ ] Exponential
