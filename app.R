@@ -154,10 +154,8 @@ server <- function(input, output) {
   # Binomial Distribution
   output$binomial <- renderPlot({
     if (is.na(input$n)) return(NULL)
-    p <- as.numeric(input$p)
-    n <- as.numeric(input$n)
-    x <- seq(from = 0, to = n, by = 1)
-    y <- dbinom(x, size = n, prob = p)
+    x <- seq(from = 0, to = input$n, by = 1)
+    y <- dbinom(x, size = input$n, prob = input$p)
     
     data.frame(x, y) %>%
       ggplot() +
