@@ -2,15 +2,15 @@
 
 https://teru.shinyapps.io/dist_vis/
 
-### Progress
+### Available Distributions
 
-- [X] Normal
-- [X] Binomial
-- [X] Beta
-- [X] Gamma
-- [X] Poisson
-- [X] Exponential
-- [ ] Geometric
+- Normal
+- Binomial
+- Beta
+- Gamma
+- Poisson
+- Exponential
+- Geometric
 
 ### To be improved
 

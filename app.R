@@ -152,8 +152,24 @@ ui <- fluidPage(
       )
     ),
     
+    # Geometric Distribution
     tabPanel(
-      "Geometric"
+      "Geometric",
+      sidebarLayout(
+        sidebarPanel(
+          width = WIDTH_SIDE,
+          sliderInput('p2',
+                      'Success Probability (\\(p\\))',
+                      min = 0,
+                      max = 1,
+                      step = 0.01,
+                      value = 0.5)
+        ),
+        mainPanel(
+          width = WIDTH_MAIN,
+          plotOutput("geometric")
+        )
+      )
     )
   )
 )
@@ -279,6 +295,23 @@ server <- function(input, output) {
       geom_vline(xintercept = 1 / input$lambda2, color = BLUES9[8]) +
       xlab('X') +
       ylab('Density') +
+      theme_hc()
+  })
+  
+  # Geometric Distribution
+  output$geometric <- renderPlot({
+    x_max <-qgeom(0.999, prob = input$p2) %>% ceiling()
+    x_ticks <- if(x_max <= 10) seq(1, 10) else waiver()
+    x <- seq(from = 0, to = ifelse(x_max <= 10, 10, x_max), by = 1)
+    y <- dgeom(x, prob = input$p2)
+    
+    data.frame(x, y) %>%
+      ggplot() +
+      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 2, alpha = 0.8) +
+      geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
+      scale_x_continuous(breaks = x_ticks) +
+      xlab('Number of Trials') +
+      ylab('Probability') +
       theme_hc()
   })
 }
