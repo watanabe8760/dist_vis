@@ -113,15 +113,13 @@ server <- function(input, output) {
   # Normal Distribution
   output$normal <- renderPlot({
     if (is.na(input$sigma)) return(NULL)
-    mu <- as.numeric(input$mu)
-    sigma <- as.numeric(input$sigma)
 
-    pos_1_sig <- c(mu - sigma, mu + sigma)
-    pos_2_sig <- c(mu - sigma * 2, mu + sigma * 2)
-    pos_3_sig <- c(mu - sigma * 3, mu + sigma * 3)
+    pos_1_sig <- c(input$mu - input$sigma, input$mu + input$sigma)
+    pos_2_sig <- c(input$mu - input$sigma * 2, input$mu + input$sigma * 2)
+    pos_3_sig <- c(input$mu - input$sigma * 3, input$mu + input$sigma * 3)
     
     x_range_def <- c(-5, 5)
-    if (3 * sigma < x_range_def[2]) {
+    if (3 * input$sigma < x_range_def[2]) {
       x_range_adj <- x_range_def
       x_ticks <- seq(x_range_def[1], x_range_def[2])
     } else {
@@ -135,14 +133,14 @@ server <- function(input, output) {
     }
 
     x <- seq(from = x_range_adj[1], to = x_range_adj[2], length.out = 1000)
-    y <- dnorm(x, mean = mu, sd = sigma)
+    y <- dnorm(x, mean = input$mu, sd = input$sigma)
     
     data.frame(x, y) %>%
       ggplot() +
       geom_path(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
       scale_x_continuous(limits = x_range_adj, breaks = x_ticks) +
       scale_y_continuous(limits = c(0, ifelse(max(y) < 1, 1, max(y)))) +
-      geom_vline(xintercept = mu, color = BLUES9[8]) +
+      geom_vline(xintercept = input$mu, color = BLUES9[8]) +
       geom_vline(xintercept = pos_1_sig, color = BLUES9[6]) +
       geom_vline(xintercept = pos_2_sig, color = BLUES9[4]) +
       geom_vline(xintercept = pos_3_sig, color = BLUES9[3]) +
