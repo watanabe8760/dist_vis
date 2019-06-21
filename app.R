@@ -10,7 +10,10 @@ WIDTH_SIDE <- 3
 WIDTH_MAIN <- 9
 
 ui <- fluidPage(
-  titlePanel("Probability Distributions"),
+  titlePanel(div("Probability Distributions",
+                 a(img(src = 'GitHub-Mark-32px.png', align = 'right'),
+                   href = 'https://github.com/watanabe8760/dist_vis'))),
+
   withMathJax(),
   
   navlistPanel(

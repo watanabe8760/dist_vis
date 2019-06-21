@@ -22,7 +22,7 @@ https://teru.shinyapps.io/dist_vis/
 
 UI
 - [X] Change the order of distributions (continuous and discrete separately)
-- [ ] Add Github logo-link
+- [X] Add Github logo-link
 
 Statistics
 - [ ] Add pdf/pmf formulas
