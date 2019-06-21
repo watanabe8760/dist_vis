@@ -90,9 +90,30 @@ ui <- fluidPage(
       )
     ),
     
+    # Gamma Distribution
     tabPanel(
-      "Gamma"
+      "Gamma",
+      sidebarLayout(
+        sidebarPanel(
+          width = WIDTH_SIDE,
+          numericInput('k',
+                       'Shape (\\(k\\))',
+                       min = 0.1,
+                       step = 0.1,
+                       value = 2),
+          numericInput('theta',
+                       'Scale (\\(\\theta\\))',
+                       min = 0.1,
+                       step = 0.1,
+                       value = 1)
+        ),
+        mainPanel(
+          width = WIDTH_MAIN,
+          plotOutput("gamma")
+        )
+      )
     ),
+    
     tabPanel(
       "Poisson"
     ),
@@ -170,6 +191,23 @@ server <- function(input, output) {
     x <- seq(from = 0, to = 1, length.out = 1000)
     y <- dbeta(x, input$alpha, input$beta)
     mu <- input$alpha / (input$alpha + input$beta)
+    
+    data.frame(x, y) %>%
+      ggplot() +
+      geom_path(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
+      geom_vline(xintercept = mu, color = BLUES9[8]) +
+      xlab('X') +
+      ylab('Density') +
+      theme_hc()
+  })
+  
+  # Gamma Distribution
+  output$gamma <- renderPlot({
+    if (is.na(input$k) | is.na(input$theta)) return(NULL)
+    x_max <- qgamma(0.999, shape = input$k, scale = input$theta) %>% ceiling()
+    x <- seq(from = 0, to = x_max, length.out = 1000)
+    y <- dgamma(x, shape = input$k, scale = input$theta)
+    mu <- input$k * input$theta
     
     data.frame(x, y) %>%
       ggplot() +
