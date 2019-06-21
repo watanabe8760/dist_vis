@@ -389,7 +389,7 @@ server <- function(input, output) {
       geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1.5) +
       geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
       scale_x_continuous(limits = c(-10, 10)) +
-      scale_y_continuous(limits = c(0, 1)) +
+      scale_y_continuous(limits = c(0, ifelse(max(y) <= 0.25, 0.25, max(y)))) +
       xlab('X') +
       ylab('Probability') +
       theme_hc()
