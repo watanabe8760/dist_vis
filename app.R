@@ -16,6 +16,7 @@ ui <- fluidPage(
   navlistPanel(
     widths = c(2, 10),
     
+    'Continuous',
     # Normal Distribution
     tabPanel(
       "Normal",
@@ -37,31 +38,6 @@ ui <- fluidPage(
         mainPanel(
           width = WIDTH_MAIN,
           plotOutput("normal")
-        )
-      )
-    ),
-    
-    # Binomial Distribution
-    tabPanel(
-      "Binomial",
-      sidebarLayout(
-        sidebarPanel(
-          width = WIDTH_SIDE,
-          sliderInput('p',
-                      'Success Probability (\\(p\\))',
-                      min = 0,
-                      max = 1,
-                      step = 0.01,
-                      value = 0.5),
-          numericInput('n',
-                       'Number of Trials (\\(n\\))',
-                       min = 1,
-                       step = 1,
-                       value = 20)
-        ),
-        mainPanel(
-          width = WIDTH_MAIN,
-          plotOutput("binomial")
         )
       )
     ),
@@ -114,25 +90,6 @@ ui <- fluidPage(
       )
     ),
     
-    # Poisson Distribution
-    tabPanel(
-      "Poisson",
-      sidebarLayout(
-        sidebarPanel(
-          width = WIDTH_SIDE,
-          numericInput('lambda',
-                       'Rate (\\(\\lambda\\))',
-                       min = 1,
-                       step = 1,
-                       value = 100)
-        ),
-        mainPanel(
-          width = WIDTH_MAIN,
-          plotOutput("poisson")
-        )
-      )
-    ),
-    
     # Exponential Distribution
     tabPanel(
       "Exponential",
@@ -148,6 +105,52 @@ ui <- fluidPage(
         mainPanel(
           width = WIDTH_MAIN,
           plotOutput("exponential")
+        )
+      )
+    ),
+    
+    'Discrete',
+    
+    # Binomial Distribution
+    tabPanel(
+      "Binomial",
+      sidebarLayout(
+        sidebarPanel(
+          width = WIDTH_SIDE,
+          sliderInput('p',
+                      'Success Probability (\\(p\\))',
+                      min = 0,
+                      max = 1,
+                      step = 0.01,
+                      value = 0.5),
+          numericInput('n',
+                       'Number of Trials (\\(n\\))',
+                       min = 1,
+                       step = 1,
+                       value = 20)
+        ),
+        mainPanel(
+          width = WIDTH_MAIN,
+          plotOutput("binomial")
+        )
+      )
+    ),
+    
+    # Poisson Distribution
+    tabPanel(
+      "Poisson",
+      sidebarLayout(
+        sidebarPanel(
+          width = WIDTH_SIDE,
+          numericInput('lambda',
+                       'Rate (\\(\\lambda\\))',
+                       min = 1,
+                       step = 1,
+                       value = 100)
+        ),
+        mainPanel(
+          width = WIDTH_MAIN,
+          plotOutput("poisson")
         )
       )
     ),
@@ -218,21 +221,6 @@ server <- function(input, output) {
       theme_hc()
   })
   
-  # Binomial Distribution
-  output$binomial <- renderPlot({
-    if (is.na(input$n)) return(NULL)
-    x <- seq(from = 0, to = input$n, by = 1)
-    y <- dbinom(x, size = input$n, prob = input$p)
-    
-    data.frame(x, y) %>%
-      ggplot() +
-      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
-      geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
-      xlab('Number of Successes') +
-      ylab('Probability') +
-      theme_hc()
-  })
-  
   # Beta Distribution
   output$beta <- renderPlot({
     if (is.na(input$alpha) | is.na(input$beta)) return(NULL)
@@ -266,22 +254,6 @@ server <- function(input, output) {
       theme_hc()
   })
   
-  # Poisson Distribution
-  output$poisson <- renderPlot({
-    if (is.na(input$lambda)) return(NULL)
-    x_max <- qpois(0.999, input$lambda)　%>% ceiling()
-    x <- seq(from = 0, to = x_max)
-    y <- dpois(x, input$lambda)
-    
-    data.frame(x, y) %>%
-      ggplot() +
-      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
-      geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
-      xlab('Number of Occurrence') +
-      ylab('Probability') +
-      theme_hc()
-  })
-  
   # Exponential Distribution
   output$exponential <- renderPlot({
     if (is.na(input$lambda2)) return(NULL)
@@ -295,6 +267,37 @@ server <- function(input, output) {
       geom_vline(xintercept = 1 / input$lambda2, color = BLUES9[8]) +
       xlab('X') +
       ylab('Density') +
+      theme_hc()
+  })
+  
+  # Binomial Distribution
+  output$binomial <- renderPlot({
+    if (is.na(input$n)) return(NULL)
+    x <- seq(from = 0, to = input$n, by = 1)
+    y <- dbinom(x, size = input$n, prob = input$p)
+    
+    data.frame(x, y) %>%
+      ggplot() +
+      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
+      geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
+      xlab('Number of Successes') +
+      ylab('Probability') +
+      theme_hc()
+  })
+  
+  # Poisson Distribution
+  output$poisson <- renderPlot({
+    if (is.na(input$lambda)) return(NULL)
+    x_max <- qpois(0.999, input$lambda)　%>% ceiling()
+    x <- seq(from = 0, to = x_max)
+    y <- dpois(x, input$lambda)
+    
+    data.frame(x, y) %>%
+      ggplot() +
+      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
+      geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
+      xlab('Number of Occurrence') +
+      ylab('Probability') +
       theme_hc()
   })
   
