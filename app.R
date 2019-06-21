@@ -323,7 +323,7 @@ server <- function(input, output) {
     
     data.frame(x, y) %>%
       ggplot() +
-      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
+      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1.5) +
       geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
       xlab('Number of Successes') +
       ylab('Probability') +
@@ -339,7 +339,7 @@ server <- function(input, output) {
     
     data.frame(x, y) %>%
       ggplot() +
-      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
+      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1.5) +
       geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
       xlab('Number of Occurrence') +
       ylab('Probability') +
@@ -355,7 +355,7 @@ server <- function(input, output) {
     
     data.frame(x, y) %>%
       ggplot() +
-      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 2, alpha = 0.8) +
+      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1.5) +
       geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
       scale_x_continuous(breaks = x_ticks) +
       xlab('Number of Trials') +
