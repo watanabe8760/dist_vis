@@ -76,12 +76,12 @@ ui <- fluidPage(
                        'Shape (\\(\\alpha\\))',
                        min = 0.1,
                        step = 0.1,
-                       value = 2),
+                       value = 0.9),
           numericInput('beta',
                        'Shape (\\(\\beta\\))',
                        min = 0.1,
                        step = 0.1,
-                       value = 2)
+                       value = 0.9)
         ),
         mainPanel(
           width = WIDTH_MAIN,
