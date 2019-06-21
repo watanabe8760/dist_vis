@@ -14,4 +14,6 @@ https://teru.shinyapps.io/dist_vis/
 
 ### To be improved
 
-- [ ] Add PDF/PMF formulas
+- [ ] Add pdf/pmf formulas
+- [ ] Add E[x] notation on graph
+
