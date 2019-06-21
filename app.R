@@ -412,7 +412,7 @@ server <- function(input, output) {
   
   # Poisson Distribution
   output$poisson <- renderPlot({
-    if (is.na(input$lambda2)) return(NULL)
+    if (is.na(input$lambda2) | input$lambda2 == 0) return(NULL)
     x_max <- qpois(0.999, input$lambda2)　%>% ceiling()
     x <- seq(from = 0, to = x_max)
     y <- dpois(x, input$lambda2)
