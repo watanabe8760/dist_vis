@@ -132,9 +132,26 @@ ui <- fluidPage(
         )
       )
     ),
+    
+    # Exponential Distribution
     tabPanel(
-      "Exponential"
+      "Exponential",
+      sidebarLayout(
+        sidebarPanel(
+          width = WIDTH_SIDE,
+          numericInput('lambda2',
+                       'Rate (\\(\\lambda\\))',
+                       min = 1,
+                       step = 1,
+                       value = 1)
+        ),
+        mainPanel(
+          width = WIDTH_MAIN,
+          plotOutput("exponential")
+        )
+      )
     ),
+    
     tabPanel(
       "Geometric"
     )
@@ -246,6 +263,22 @@ server <- function(input, output) {
       geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
       xlab('Number of Occurrence') +
       ylab('Probability') +
+      theme_hc()
+  })
+  
+  # Exponential Distribution
+  output$exponential <- renderPlot({
+    if (is.na(input$lambda2)) return(NULL)
+    x_max <- qexp(0.999, input$lambda2)
+    x <- seq(from = 0, to = x_max, length.out = 1000)
+    y <- dexp(x, input$lambda2)
+    
+    data.frame(x, y) %>%
+      ggplot() +
+      geom_path(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
+      geom_vline(xintercept = 1 / input$lambda2, color = BLUES9[8]) +
+      xlab('X') +
+      ylab('Density') +
       theme_hc()
   })
 }

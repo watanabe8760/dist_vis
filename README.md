@@ -8,8 +8,8 @@ https://teru.shinyapps.io/dist_vis/
 - [X] Binomial
 - [X] Beta
 - [X] Gamma
-- [ ] Poisson
-- [ ] Exponential
+- [X] Poisson
+- [X] Exponential
 - [ ] Geometric
 
 ### To be improved
