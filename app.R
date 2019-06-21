@@ -16,7 +16,7 @@ ui <- fluidPage(
   navlistPanel(
     widths = c(2, 10),
     
-    'Continuous',
+    'Continuous', #############################################################
     
     # Normal Distribution
     tabPanel(
@@ -131,7 +131,26 @@ ui <- fluidPage(
       )
     ),
     
-    'Discrete',
+    # Chi-squared Distribution
+    tabPanel(
+      "Chi-squared",
+      sidebarLayout(
+        sidebarPanel(
+          width = WIDTH_SIDE,
+          numericInput('df',
+                       'Degree of Freedom (\\(k\\))',
+                       min = 1,
+                       step = 1,
+                       value = 1)
+        ),
+        mainPanel(
+          width = WIDTH_MAIN,
+          plotOutput("chi_squared")
+        )
+      )
+    ),
+    
+    'Discrete', ###############################################################
     
     # Uniform Distribution (Discrete)
     tabPanel(
@@ -333,6 +352,21 @@ server <- function(input, output) {
       ggplot() +
       geom_path(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
       geom_vline(xintercept = 1 / input$lambda, color = BLUES9[8]) +
+      xlab('X') +
+      ylab('Density') +
+      theme_hc()
+  })
+  
+  # Chi-squared Distribution
+  output$chi_squared <- renderPlot({
+    if (is.na(input$df) | input$df == 0) return(NULL)
+    x_max <- qchisq(0.999, input$df) %>% ceiling()
+    x <- seq(0, x_max, length.out = 1000)
+    y <- dchisq(x, input$df)
+    
+    data.frame(x, y) %>%
+      ggplot() +
+      geom_path(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
       xlab('X') +
       ylab('Density') +
       theme_hc()

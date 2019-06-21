@@ -10,6 +10,7 @@ https://teru.shinyapps.io/dist_vis/
 - Beta
 - Gamma
 - Exponential
+- Chi-squared
 
 #### Discrete
 - Uniform
@@ -18,11 +19,6 @@ https://teru.shinyapps.io/dist_vis/
 - Geometric
 
 ### To be improved
-
-Additional Distribution
-- [X] Add continuous uniform distribution
-- [X] Add discrete uniform distribution
-- [ ] Add chi-squared distribution
 
 UI
 - [X] Change the order of distributions (continuous and discrete separately)
