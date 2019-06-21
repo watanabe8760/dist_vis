@@ -278,7 +278,7 @@ server <- function(input, output) {
       ggplot() +
       geom_path(aes(x = x, y = y), color = BLUES9[9], size = 1, alpha = 0.8) +
       scale_x_continuous(limits = x_range_adj, breaks = x_ticks) +
-      scale_y_continuous(limits = c(0, ifelse(max(y) < 1, 1, max(y)))) +
+      scale_y_continuous(limits = c(0, ifelse(max(y) < 0.5, 0.5, max(y)))) +
       geom_vline(xintercept = input$mu, color = BLUES9[8]) +
       geom_vline(xintercept = pos_1_sig, color = BLUES9[6]) +
       geom_vline(xintercept = pos_2_sig, color = BLUES9[4]) +
