@@ -428,6 +428,7 @@ server <- function(input, output) {
   
   # Geometric Distribution
   output$geometric <- renderPlot({
+    if (input$p2 == 0) return(NULL)
     x_max <-qgeom(0.999, prob = input$p2) %>% ceiling()
     x_ticks <- if(x_max <= 10) seq(1, 10) else waiver()
     x <- seq(from = 0, to = ifelse(x_max <= 10, 10, x_max), by = 1)
