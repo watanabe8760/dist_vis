@@ -12,6 +12,7 @@ https://teru.shinyapps.io/dist_vis/
 - Exponential
 
 #### Discrete
+- Uniform
 - Binomial
 - Poisson
 - Geometric
@@ -20,7 +21,7 @@ https://teru.shinyapps.io/dist_vis/
 
 Additional Distribution
 - [X] Add continuous uniform distribution
-- [ ] Add discrete uniform distribution
+- [X] Add discrete uniform distribution
 - [ ] Add chi-squared distribution
 
 UI

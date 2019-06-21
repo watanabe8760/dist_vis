@@ -133,6 +133,27 @@ ui <- fluidPage(
     
     'Discrete',
     
+    # Uniform Distribution (Discrete)
+    tabPanel(
+      "Uniform",
+      sidebarLayout(
+        sidebarPanel(
+          width = WIDTH_SIDE,
+          sliderInput('ab_',
+                      'Range (\\(a, b\\))',
+                      min = -10,
+                      max = 10,
+                      step = 1,
+                      ticks = F,
+                      value = c(-3, 3))
+        ),
+        mainPanel(
+          width = WIDTH_MAIN,
+          plotOutput("uniform_disc")
+        )
+      )
+    ),
+    
     # Binomial Distribution
     tabPanel(
       "Binomial",
@@ -203,6 +224,8 @@ ui <- fluidPage(
 # Server ######################################################################
 server <- function(input, output) {
   BLUES9 <- brewer.pal(9, 'Blues')
+  
+  # Continuous Distributions ##################################################
   
   # Normal Distribution
   output$normal <- renderPlot({
@@ -312,6 +335,26 @@ server <- function(input, output) {
       geom_vline(xintercept = 1 / input$lambda, color = BLUES9[8]) +
       xlab('X') +
       ylab('Density') +
+      theme_hc()
+  })
+  
+  # Discrete Distributions ####################################################
+  
+  # Uniform Distribution (Discrete)
+  output$uniform_disc <- renderPlot({
+    a <- input$ab_[1]
+    b <- input$ab_[2]
+    x <- seq(a, b)
+    y <- ifelse(x >= a & x <= b, 1/(b-a+1), 0)
+    
+    data.frame(x = x, y = y) %>%
+      ggplot() +
+      geom_point(aes(x = x, y = y), color = BLUES9[9], size = 1.5) +
+      geom_segment(aes(x = x, y = 0, xend = x, yend = y), color = BLUES9[6]) +
+      scale_x_continuous(limits = c(-10, 10)) +
+      scale_y_continuous(limits = c(0, 1)) +
+      xlab('X') +
+      ylab('Probability') +
       theme_hc()
   })
   
