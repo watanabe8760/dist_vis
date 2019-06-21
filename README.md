@@ -18,3 +18,4 @@ https://teru.shinyapps.io/dist_vis/
 - [ ] Add E[x] notation on graph
 - [ ] Change the order of distributions (continuous and discrete separately)
 - [ ] Add Github logo-link
+- [ ] Transfer ggplot objects to a separate R file
